@@ -1,8 +1,19 @@
 import React from 'react'
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import MainLayout from './layout/MainLayout'
+import HomePage from './pages/HomePage'
+import AddNotes from './pages/AddNotes'
 
 const App = () => {
   return (
-    <div>App</div>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<MainLayout />}>
+          <Route index element={<HomePage />} />
+          <Route path='/add-notes' element={<AddNotes />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   )
 }
 
