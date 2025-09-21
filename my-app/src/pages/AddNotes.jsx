@@ -1,7 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./AddNotes.css";
+import api from "../api/api";
 
 const AddNotes = () => {
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+
+  useEffect(() => {
+    api.get('categories')
+    .then(res => {
+      console.log(res.data)
+      setCategories(res.data)
+      console.log(categories)
+    })
+    .catch(err => {
+      console.log(err.message)
+    })
+  }, [])
+
+  console.log(`title: ${title}`)
+  console.log(`body: ${body}`)
+  console.log(`selectedCategory: ${selectedCategory}`)
   return (
     <form className="add-note-form">
       <h5>Add New Note</h5>
@@ -16,6 +37,8 @@ const AddNotes = () => {
           className="form-control"
           id="noteTitle"
           placeholder="Enter note's title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
         />
       </div>
 
@@ -29,6 +52,8 @@ const AddNotes = () => {
           id="noteContent"
           rows={4}
           placeholder="Enter note's content"
+          value={body}
+          onChange={(e) => setBody(e.target.value)}
         ></textarea>
       </div>
 
@@ -41,11 +66,15 @@ const AddNotes = () => {
           id="noteCategory"
           className="form-select"
           aria-label="Select category"
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(e.target.value)}
         >
-          <option defaultValue="">Pick a category</option>
-          <option value="business">Business</option>
-          <option value="personal">Personal</option>
-          <option value="important">Important</option>
+          <option value="" disabled>-- Pick a category --</option>
+          {
+            categories.map(cat => (
+              <option key={cat.value} value={cat.value}>{cat.label}</option>
+            ))
+          }
         </select>
       </div>
 

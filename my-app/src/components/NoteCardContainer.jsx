@@ -41,6 +41,7 @@ const NoteCardContainer = ({ notes, loading }) => {
                 content={note.body}
                 color={note.color}
                 loading={loading}
+                slug={note.slug}
               />
             ))}
       </div>

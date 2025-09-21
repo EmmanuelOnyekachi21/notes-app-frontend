@@ -6,7 +6,7 @@ import FormatDate from "../hooks/FormatDate";
 
 const MAX_LENGTH = 170;
 
-const NoteCard = ({ title, date, content, color }) => {
+const NoteCard = ({ title, date, content, color, slug }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [expanded, setExpanded] = useState(false);
   // const toggleXpand = () => setExpanded((prev) => !prev);
@@ -32,7 +32,7 @@ const NoteCard = ({ title, date, content, color }) => {
 
         {/* Title + Content */}
         <Link
-          to="/note-detail"
+          to={`/notes/${slug}`}
           className="note-title-link"
           style={{
             color: isHovered ? color : "black",
