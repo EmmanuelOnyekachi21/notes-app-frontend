@@ -35,7 +35,7 @@ const HomePage = () => {
   return (
     <>
       <Filter />
-      <NoteCardContainer notes={notes} loading={isloading} />
+      <NoteCardContainer notes={notes} setNotes={setNotes} loading={isloading} />
     </>
   );
 };

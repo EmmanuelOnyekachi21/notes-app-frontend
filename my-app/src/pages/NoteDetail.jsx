@@ -4,6 +4,10 @@ import api from "../api/api";
 import { FaArrowLeft, FaTrash, FaNoteSticky } from "react-icons/fa6";
 import { FaEdit } from "react-icons/fa";
 import FormatDate from "../hooks/FormatDate";
+import { toast } from "react-toastify";
+import useDotAnimation from "../hooks/useDotAnimation";
+import handleDelete from "../hooks/useDeletePage";
+import useDeletePage from "../hooks/useDeletePage";
 
 const NoteDetail = () => {
   const { slug } = useParams();
@@ -11,6 +15,7 @@ const NoteDetail = () => {
 
   const [note, setNote] = useState({});
   const [loading, setLoading] = useState(false);
+  const dots = useDotAnimation(loading)
 
   useEffect(() => {
     setLoading(true);
@@ -23,9 +28,16 @@ const NoteDetail = () => {
       })
       .catch((err) => {
         setLoading(false);
+        if (err.response && err.response.status === 404){
+            toast.error("Note not found.")
+            navigate("/");
+        } else{
+            toast.error("An error occurred")
+        }
         console.log(err.message);
       });
   }, [slug]);
+  const handleDelete = useDeletePage();
   return (
     <div className="container py-4">
       <div className="card shadow-sm border-0 rounded-3 p-4">
@@ -58,11 +70,11 @@ const NoteDetail = () => {
             <FaArrowLeft /> Back
           </button>
           <div>
-            <button className="btn btn-warning me-2">
+            <button className="btn btn-warning me-2" onClick={() => navigate(`/edit-note/${slug}`)}>
               <FaEdit /> Edit
             </button>
-            <button className="btn btn-danger">
-              <FaTrash /> Delete
+            <button className="btn btn-danger" onClick={() => handleDelete(slug, setLoading)} disabled={loading}>
+              <FaTrash /> { loading ? `Deleting${dots}` : "Delete" }
             </button>
           </div>
         </div>

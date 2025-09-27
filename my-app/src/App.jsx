@@ -4,6 +4,7 @@ import MainLayout from './layout/MainLayout'
 import HomePage from './pages/HomePage'
 import AddNotes from './pages/AddNotes'
 import NoteDetail from './pages/NoteDetail'
+import EditPage from './pages/EditPage'
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
           <Route index element={<HomePage />} />
           <Route path='/add-notes' element={<AddNotes />} />
           <Route path='/notes/:slug' element={<NoteDetail />} />
+          <Route path='/edit-note/:slug' element={<EditPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
